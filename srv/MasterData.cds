@@ -6,6 +6,8 @@ service electronicsapp {
      entity State as projection on db.State;
      entity Product as projection on db.Product;
      entity StockData as projection on db.StockData;
+     entity PurchaseOrder as projection on db.PurchaseOrder;
+     entity Sale as projection on db.Sale;
 }
 annotate electronicsapp.BusinessPartner with {
     name @assert.format: '^[a-zA-Z]{2,}$';
@@ -15,6 +17,9 @@ annotate electronicsapp.BusinessPartner with @odata.draft.enabled;
 annotate electronicsapp.Store with @odata.draft.enabled;
 annotate electronicsapp.Product with @odata.draft.enabled;
 annotate electronicsapp.StockData with @odata.draft.enabled;
+annotate electronicsapp.PurchaseOrder with @odata.draft.enabled;
+annotate electronicsapp.Sale with @odata.draft.enabled;
+
 annotate electronicsapp.BusinessPartner with @(
     UI.LineItem: [
         {
@@ -323,3 +328,228 @@ annotate electronicsapp.StockData with @(
         },
     ]
 );
+annotate electronicsapp.PurchaseOrder.items with @( 
+    UI.LineItem: [
+        {
+            Value: product_id,
+        },
+        {
+            Value: qty,
+        },
+        {
+            Value: price,
+        },
+        {
+            Value: store_id,
+        },
+    ],
+    UI.FieldGroup #PurchaseOrderItem: {
+        $Type: 'UI.FieldGroupType',
+        Data: [
+            { 
+                $Type: 'UI.DataField', 
+                Value: product_id,
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: qty,
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: price,
+                },
+                 { 
+                $Type: 'UI.DataField', 
+                Value: store_id,
+                },
+
+        ]
+    },
+    UI.Facets: [
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'PurchaseOrderItemFacet',
+            Label: 'Purchase Order item',
+            Target: '@UI.FieldGroup#PurchaseOrderItem'
+        },
+    ]
+);
+annotate electronicsapp.Sale.items with @( 
+    UI.LineItem: [
+        {
+            Value: product_id,
+        },
+        {
+            Value: qty,
+        },
+        {
+            Value: price,
+        },
+        {
+            Value: store_id,
+        },
+    ],
+    UI.FieldGroup #saleItem: {
+        $Type: 'UI.FieldGroupType',
+        Data: [
+            { 
+                $Type: 'UI.DataField', 
+                Value: product_id,
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: qty,
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: price,
+                },
+                 { 
+                $Type: 'UI.DataField', 
+                Value: store_id,
+                },
+
+        ]
+    },
+    UI.Facets: [
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'saleItemFacet',
+            Label: 'sale item',
+            Target: '@UI.FieldGroup#saleItem'
+        },
+    ]
+);
+
+annotate electronicsapp.PurchaseOrder with @( 
+    UI.LineItem: [
+        { 
+            $Type: 'UI.DataField', 
+        Value: purchaseOrderNumber 
+        },
+        { 
+            $Type: 'UI.DataField',
+             Value: businessPartner.BusinessPartnerID
+              },
+        { 
+            $Type: 'UI.DataField',
+             Value: purchaseOrderDate 
+             }
+             
+             
+    ],
+    UI.FieldGroup #PurchaseOrderHeader: {
+        $Type: 'UI.FieldGroupType',
+        Data: [
+            { 
+                $Type: 'UI.DataField', 
+                Value: purchaseOrderNumber 
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: businessPartner.BusinessPartnerID 
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: purchaseOrderDate 
+                }
+        ]
+    },
+    UI.Facets: [
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'PurchaseOrderHeaderFacet',
+            Label: 'Purchase Order Header',
+            Target: '@UI.FieldGroup#PurchaseOrderHeader'
+        },
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'PurchaseOrderItems',
+            Label: 'Purchase Order Items',
+            Target: 'items/@UI.LineItem',
+        },
+    ]
+);
+annotate electronicsapp.Sale with @( 
+    UI.LineItem: [
+        { 
+            $Type: 'UI.DataField', 
+        Value: saleOrderNumber 
+        },
+        { 
+            $Type: 'UI.DataField',
+             Value: businessPartner.BusinessPartnerID
+              },
+        { 
+            $Type: 'UI.DataField',
+             Value: saleDate 
+             }
+             
+             
+    ],
+    UI.FieldGroup #sale: {
+        $Type: 'UI.FieldGroupType',
+        Data: [
+            { 
+                $Type: 'UI.DataField', 
+                Value: saleOrderNumber 
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: businessPartner.BusinessPartnerID 
+                },
+            { 
+                $Type: 'UI.DataField', 
+                Value: saleDate
+                }
+        ]
+    },
+    UI.Facets: [
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'saleFacet',
+            Label: 'sale information',
+            Target: '@UI.FieldGroup#sale'
+        },
+        {
+            $Type: 'UI.ReferenceFacet',
+            ID: 'PurchaseOrderItems',
+            Label: 'Purchase Order Items',
+            Target: 'items/@UI.LineItem',
+        },
+    ]
+);
+annotate electronicsapp.PurchaseOrder.items with {
+    product_id @(
+        // Common.ValueListWithFixedValues: true,
+        Common.ValueList: {
+            Label: 'Product List',
+            CollectionPath: 'Product',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: product_id,
+                    ValueListProperty: 'productid'
+                },
+            
+            ]
+        }
+    )
+};
+annotate electronicsapp.Sale.items with {
+    product_id @(
+        // Common.ValueListWithFixedValues: true,
+        Common.ValueList: {
+            Label: 'Product List',
+            CollectionPath: 'Product',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: product_id,
+                    ValueListProperty: 'productid'
+                },
+            
+            ]
+        }
+    )
+};

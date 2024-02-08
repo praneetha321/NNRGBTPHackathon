@@ -21,7 +21,7 @@ entity BusinessPartner : cuid, managed {
 }
 entity Store : cuid, managed {
     @title:'StoreId'
-    storeid:String(20);
+    storeid:String(10);
     @title:'Name'
     Name:String(20);
      @title:'Address1'
@@ -48,7 +48,7 @@ entity Product : cuid, managed{
     @title:'product Name'
     productname:String(20);
     @title:'product image'
-    productimage:String;
+    productimage:String   @mandatory;
     @title:'product cost price'
     productcostprice:Decimal(10,2);
     @title:'product selling price'
@@ -62,3 +62,41 @@ entity StockData : cuid, managed {
   @title:'stock qty'
   stockQty : Integer;
 } 
+entity PurchaseOrder : cuid, managed {
+    @title:'Purchase Order Number'
+    purchaseOrderNumber : Integer;
+    @title:'Purchase Order Date'
+    purchaseOrderDate : Date;
+    @title:'Business Partner'
+    businessPartner : Association to BusinessPartner;
+    @title:'Items'
+    items: Composition of many {
+        @title:'Product ID'
+        product_id : String(10);
+        @title:'Quantity'
+        qty : Integer;
+        @title:'Price'
+        price : Decimal(10,2);
+        @title:'Store ID'
+        store_id : String(10);
+    };
+}
+entity Sale : cuid, managed {
+    @title:'sale Order Number'
+    saleOrderNumber : Integer;
+    @title:'sale Order Date'
+    saleDate : Date;
+    @title:'Business Partner'
+    businessPartner : Association to BusinessPartner;
+    @title:'Items'
+    items: Composition of many {
+        @title:'Product ID'
+        product_id : String(10);
+        @title:'Quantity'
+        qty : Integer;
+        @title:'Price'
+        price : Decimal(10,2);
+        @title:'Store ID'
+        store_id : String(10);
+    };
+}
