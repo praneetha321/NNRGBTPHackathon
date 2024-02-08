@@ -4,6 +4,8 @@ service electronicsapp {
      entity BusinessPartner as projection on db.BusinessPartner;
      entity Store as projection on db.Store;
      entity State as projection on db.State;
+     entity Product as projection on db.Product;
+     entity StockData as projection on db.StockData;
 }
 annotate electronicsapp.BusinessPartner with {
     name @assert.format: '^[a-zA-Z]{2,}$';
@@ -11,6 +13,8 @@ annotate electronicsapp.BusinessPartner with {
 };
 annotate electronicsapp.BusinessPartner with @odata.draft.enabled;
 annotate electronicsapp.Store with @odata.draft.enabled;
+annotate electronicsapp.Product with @odata.draft.enabled;
+annotate electronicsapp.StockData with @odata.draft.enabled;
 annotate electronicsapp.BusinessPartner with @(
     UI.LineItem: [
         {
@@ -38,6 +42,12 @@ annotate electronicsapp.BusinessPartner with @(
             Label:'state',
             Value:state
         },
+        {
+            Value: is_vendor
+        },
+         {
+            Value: is_customer
+        },
 
     ],
     UI.SelectionFields:[BusinessPartnerID,name]
@@ -54,6 +64,7 @@ annotate electronicsapp.BusinessPartner with @(
                 $Type : 'UI.DataField',
                 Value : name,
             },
+
             {
                 $Type : 'UI.DataField',
                 Value : address1,
@@ -206,3 +217,109 @@ annotate electronicsapp.Store with {
         }
     )
 };
+annotate electronicsapp.Product with @(
+    UI.LineItem: [
+        {
+            $Type:'UI.DataField',
+            Value:productid
+        },
+        {
+            $Type:'UI.DataField',
+            Value:productname
+        },
+        {
+            $Type:'UI.DataField',
+            Value:productimage
+        },
+        {
+            $Type:'UI.DataField',
+            Value:productcostprice
+        },
+        {
+            $Type:'UI.DataField',
+            Value:productsellingprice
+        },
+
+    ],
+    UI.SelectionFields:[productid,productname]
+);
+annotate electronicsapp.Product with @(
+    UI.FieldGroup #ProductInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+            $Type:'UI.DataField',
+            Value:productid,
+        },
+            {
+                $Type : 'UI.DataField',
+                Value : productname,
+            },
+
+            {
+                $Type : 'UI.DataField',
+                Value : productimage,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : productcostprice,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : productsellingprice,
+            },
+        ]
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'ProductInfoFacet',
+            Label : 'product Information',
+            Target : '@UI.FieldGroup#ProductInformation',
+        },
+    ]
+    
+);
+annotate electronicsapp.StockData with @(
+    UI.LineItem: [
+        {
+            $Type : 'UI.DataField',
+            Value : store
+        },
+        {
+            $Type : 'UI.DataField',
+             Value : product
+        },
+        {
+            $Type : 'UI.DataField',
+            Value : stockQty
+        }
+    ],
+);
+annotate electronicsapp.StockData with @(
+    UI.FieldGroup #StockDataInformation : {
+        $Type : 'UI.FieldGroupType',
+        Data : [
+            {
+                $Type : 'UI.DataField',
+                 Value : store_ID,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : product_ID,
+            },
+            {
+                $Type : 'UI.DataField',
+                Value : stockQty,
+            },
+        ]
+    },
+    UI.Facets : [
+        {
+            $Type : 'UI.ReferenceFacet',
+            ID : 'StockDataInfoFacet',
+            Label : 'Stock Data Information',
+            Target : '@UI.FieldGroup#StockDataInformation',
+        },
+    ]
+);

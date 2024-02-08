@@ -15,6 +15,9 @@ entity BusinessPartner : cuid, managed {
     pincode     : String(10);
      @title:'State'
      state:String(2);
+     @title:'is_vendor'
+     is_vendor:Boolean default false;
+     is_customer:Boolean default false;
 }
 entity Store : cuid, managed {
     @title:'StoreId'
@@ -39,3 +42,23 @@ entity State {
     @title : 'description'
     description: String(30);
 }
+entity Product : cuid, managed{
+    @title:'ProductId'
+    productid:String(10);
+    @title:'product Name'
+    productname:String(20);
+    @title:'product image'
+    productimage:String;
+    @title:'product cost price'
+    productcostprice:Decimal(10,2);
+    @title:'product selling price'
+    productsellingprice:Decimal(10,2);
+}
+entity StockData : cuid, managed {
+    @title:'Store id'
+     store  : Association to Store;
+     @title:'Product id'
+  product : Association to Product;
+  @title:'stock qty'
+  stockQty : Integer;
+} 

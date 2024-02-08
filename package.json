@@ -10,9 +10,31 @@
     "express": "^4"
   },
   "devDependencies": {
-    "@cap-js/sqlite": "^1"
+    "@cap-js/sqlite": "^1",
+    "@sap/ux-specification": "^1.120.3"
   },
   "scripts": {
-    "start": "cds-serve"
-  }
+    "start": "cds-serve",
+    "watch-electronicapp": "cds watch --open electronicapp/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-store": "cds watch --open store/webapp/index.html?sap-ui-xx-viewCache=false"
+  },
+  "cds": {
+    "fiori": {
+      "lean_draft": true,
+      "bypass_draft": true
+    },
+    "requires": {
+      "db": {
+        "kind": "sqlite",
+        "credentials": {
+          "url": "db.sqlite"
+        }
+      }
+    }
+  },
+  "sapux": [
+    "app/businesspartner",
+    "app/store"
+  ]
 }
