@@ -5,22 +5,52 @@ function validateCostPrice(productData) {
         throw new Error("Product cost price must be less than selling price.");
     }
 }
+
 module.exports = cds.service.impl(function () {
-    const { BusinessPartner,State,Product } = this.entities();
+    const { BusinessPartner, State, Product, PurchaseOrder,Sale } = this.entities();
+
     this.before(['CREATE', 'UPDATE'], Product, async (req) => {
         try {
-             validateCostPrice(req.data);
+            validateCostPrice(req.data);
         } catch (error) {
             req.error({ code: 'INVALID_COST_PRICE', message: error.message });
         }
     });
-    this.on('READ', State, async(req) => {
-        states = [
-            {"code":"Ap", "description":"Andhra Pradesh"},
-            {"code":"TS", "description":"Telangana"}
-        ]
-        states.$count=states.length;
-        return states;
-    })
 
+    this.before('CREATE', BusinessPartner, async (req) => {
+        const data = req.data;
+        console.log('BusinessPartner data:', data);
+        if (data.Is_gstn_registered && !data.GSTIN_Number) {
+            req.error(400, 'If GSTN registration is enabled, GSTIN Number is required.');
+        }
+    });
+
+    this.on('READ', State, async (req) => {
+        const states = [
+            { "code": "Ap", "description": "Andhra Pradesh" },
+            { "code": "TS", "description": "Telangana" }
+        ];
+        states.$count = states.length;
+        return states;
+    });
+
+    this.before('CREATE', PurchaseOrder, async (req) => {
+        const { items } = req.data;
+        for (const item of items) {
+            const product = await SELECT.one.from(Product).where({ productid: item.product_id });
+            if (product && item.price >= product.productcostprice) {
+                req.error(400, 'Price in PurchaseOrder must be less than product cost price.');
+            }
+        }
+    });
+    this.before('CREATE', Sale, async (req) => {
+        const { items } = req.data;
+        for (const item of items) {
+            const product = await SELECT.one.from(Product).where({ productid: item.product_id });
+            if (product && item.price >= product.productsellingprice) {
+                req.error(400, 'Price in PurchaseOrder must be less than product selling price.');
+            }
+        }
+    });
+    
 });

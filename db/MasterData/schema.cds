@@ -9,14 +9,19 @@ entity BusinessPartner : cuid, managed {
     name        : String(20);
     @title:'Address1'
     address1    : String(30);
-    @title:'Address2'
+    @title:'Address2'   
     address2    : String(30);
     @title:'PinCode'
     pincode     : String(10);
      @title:'State'
      state:String(2);
+     @title:'Gstn registered'
+     Is_gstn_registered: Boolean default false;
+    @title:'GSTIN Number'
+    GSTIN_Number: String(16);
      @title:'is_vendor'
      is_vendor:Boolean default false;
+     @title:'is_customer'
      is_customer:Boolean default false;
 }
 entity Store : cuid, managed {
@@ -43,12 +48,14 @@ entity State {
     description: String(30);
 }
 entity Product : cuid, managed{
-    @title:'ProductId'
+    @title:'product id'
     productid:String(10);
     @title:'product Name'
     productname:String(20);
-    @title:'product image'
-    productimage:String   @mandatory;
+    @title:'product image url'
+   ProductPictureURL    : String  @Common.Text : '{Product}';
+   @title:'product image'
+    ProductPicture: Binary @Core.MediaType : 'image/*';
     @title:'product cost price'
     productcostprice:Decimal(10,2);
     @title:'product selling price'
@@ -76,10 +83,10 @@ entity PurchaseOrder : cuid, managed {
         @title:'Quantity'
         qty : Integer;
         @title:'Price'
-        price : Decimal(10,2);
+         price : Decimal(10,2);
         @title:'Store ID'
         store_id : String(10);
-    };
+     };
 }
 entity Sale : cuid, managed {
     @title:'sale Order Number'

@@ -4,22 +4,29 @@ sap.ui.define([
     'use strict';
 
     return {
-        SetVendor: function(oBindingContext, aSelectedContexts) {       
+        Set Vendor: function(oBindingContext, aSelectedContexts) {       
             aSelectedContexts.forEach(element => {
                MessageToast.show(element.sPath);
                var aData = jQuery.ajax({
                    type: "PATCH",
                    contentType: "application/json",
-                   url: "/odata/v4/student-db" + element.sPath,
+                   url: "/odata/v4/electronicsapp/BusinessPartnerp" + element.sPath,
                    data: JSON.stringify({is_vendor: true})
                }).then(element.requestRefresh());
-               SetCustomer: function(oBindingContext, aSelectedContexts) {       
+            });
+        },
+               Set Customer: function(oBindingContext, aSelectedContexts) {       
                 aSelectedContexts.forEach(element => {
                    MessageToast.show(element.sPath);
                    var aData = jQuery.ajax({
                        type: "PATCH",
                        contentType: "application/json",
-                       url: "/odata/v4/student-db" + element.sPath,
-                       data: JSON.stringify({is_Customer: true})
+                       url: "/odata/v4/electronicsapp/BusinessPartner" + element.sPath,
+                       data: JSON.stringify({is_vendor:false})
                    }).then(element.requestRefresh());
            });
+        }
+    }
+}
+}
+)

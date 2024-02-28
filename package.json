@@ -17,7 +17,8 @@
     "start": "cds-serve",
     "watch-electronicapp": "cds watch --open electronicapp/webapp/index.html?sap-ui-xx-viewCache=false",
     "watch-businesspartner": "cds watch --open businesspartner/webapp/index.html?sap-ui-xx-viewCache=false",
-    "watch-store": "cds watch --open store/webapp/index.html?sap-ui-xx-viewCache=false"
+    "watch-store": "cds watch --open store/webapp/index.html?sap-ui-xx-viewCache=false",
+    "watch-product": "cds watch --open product/webapp/index.html?sap-ui-xx-viewCache=false"
   },
   "cds": {
     "fiori": {
@@ -35,6 +36,8 @@
   },
   "sapux": [
     "app/businesspartner",
-    "app/store"
+    "app/store",
+    "app/product",
+    "app/product"
   ]
 }

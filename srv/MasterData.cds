@@ -12,6 +12,7 @@ service electronicsapp {
 annotate electronicsapp.BusinessPartner with {
     name @assert.format: '^[a-zA-Z]{2,}$';
     pincode   @assert.format: '^(\d{4}|\d{6})$';
+    GSTIN_Number @assert.format: '^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d{1})$';
 };
 annotate electronicsapp.BusinessPartner with @odata.draft.enabled;
 annotate electronicsapp.Store with @odata.draft.enabled;
@@ -48,6 +49,14 @@ annotate electronicsapp.BusinessPartner with @(
             Value:state
         },
         {
+            $Type:'UI.DataField',
+            Value:Is_gstn_registered
+        },
+        {
+            $Type:'UI.DataField',
+            Value:GSTIN_Number
+        },
+        {
             Value: is_vendor
         },
          {
@@ -82,6 +91,14 @@ annotate electronicsapp.BusinessPartner with @(
                 $Type : 'UI.DataField',
                 Value : pincode,
             },
+             {
+            $Type:'UI.DataField',
+            Value:Is_gstn_registered,
+        },
+        {
+            $Type:'UI.DataField',
+            Value:GSTIN_Number,
+        },
             {
             $Type:'UI.DataField',
             Label:'state',
@@ -234,8 +251,12 @@ annotate electronicsapp.Product with @(
         },
         {
             $Type:'UI.DataField',
-            Value:productimage
+            Value:ProductPictureURL
         },
+        {
+                $Type : 'UI.DataField',
+                Value : ProductPicture,
+            },
         {
             $Type:'UI.DataField',
             Value:productcostprice
@@ -260,10 +281,14 @@ annotate electronicsapp.Product with @(
                 $Type : 'UI.DataField',
                 Value : productname,
             },
+              {
+                $Type : 'UI.DataField',
+                Value : ProductPicture,
+            },
 
             {
                 $Type : 'UI.DataField',
-                Value : productimage,
+                Value :ProductPictureURL,
             },
             {
                 $Type : 'UI.DataField',
@@ -283,17 +308,16 @@ annotate electronicsapp.Product with @(
             Target : '@UI.FieldGroup#ProductInformation',
         },
     ]
-    
 );
 annotate electronicsapp.StockData with @(
     UI.LineItem: [
         {
             $Type : 'UI.DataField',
-            Value : store
+            Value : store_ID
         },
         {
             $Type : 'UI.DataField',
-             Value : product
+             Value : product_ID
         },
         {
             $Type : 'UI.DataField',
@@ -531,6 +555,21 @@ annotate electronicsapp.PurchaseOrder.items with {
                     LocalDataProperty: product_id,
                     ValueListProperty: 'productid'
                 },
+                
+                     ]
+        }
+                  );
+              store_id @(
+        // Common.ValueListWithFixedValues: true,
+        Common.ValueList: {
+            Label: 'Store List',
+            CollectionPath: 'Store',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: store_id,
+                    ValueListProperty: 'storeid'
+                },
             
             ]
         }
@@ -538,7 +577,6 @@ annotate electronicsapp.PurchaseOrder.items with {
 };
 annotate electronicsapp.Sale.items with {
     product_id @(
-        // Common.ValueListWithFixedValues: true,
         Common.ValueList: {
             Label: 'Product List',
             CollectionPath: 'Product',
@@ -547,6 +585,20 @@ annotate electronicsapp.Sale.items with {
                     $Type: 'Common.ValueListParameterInOut',
                     LocalDataProperty: product_id,
                     ValueListProperty: 'productid'
+                },
+                     ]
+        }
+                  );
+              store_id @(
+        // Common.ValueListWithFixedValues: true,
+        Common.ValueList: {
+            Label: 'Store List',
+            CollectionPath: 'Store',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: store_id,
+                    ValueListProperty: 'storeid'
                 },
             
             ]
