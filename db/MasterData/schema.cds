@@ -61,14 +61,6 @@ entity Product : cuid, managed{
     @title:'product selling price'
     productsellingprice:Decimal(10,2);
 }
-// entity StockData : cuid, managed {
-//     @title:'Store id'
-//      store  : Association to Store;
-//      @title:'Product id'
-//   product : Association to Product;
-//   @title:'stock qty'
-//   stockQty : Integer;
-// } 
 entity StockData : cuid, managed {
     @title:'Store id'
     store_ID  : String(10);
