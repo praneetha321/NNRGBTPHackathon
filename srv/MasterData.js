@@ -7,7 +7,7 @@ function validateCostPrice(productData) {
 }
 
 module.exports = cds.service.impl(function () {
-    const { BusinessPartner, State, Product, PurchaseOrder,Sale } = this.entities();
+    const { BusinessPartner, State, Product, PurchaseOrder,Sale,StockData } = this.entities();
 
     this.before(['CREATE', 'UPDATE'], Product, async (req) => {
         try {
@@ -52,5 +52,4 @@ module.exports = cds.service.impl(function () {
             }
         }
     });
-    
 });

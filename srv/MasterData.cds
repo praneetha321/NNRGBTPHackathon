@@ -15,7 +15,7 @@ annotate electronicsapp.BusinessPartner with {
     GSTIN_Number @assert.format: '^(\d{2}[A-Z]{5}\d{4}[A-Z]{1}\d{1})$';
 };
 annotate electronicsapp.BusinessPartner with @odata.draft.enabled;
-annotate electronicsapp.Store with @odata.draft.enabled;
+annotate electronicsapp.Store with @odata.draft.enabled;  
 annotate electronicsapp.Product with @odata.draft.enabled;
 annotate electronicsapp.StockData with @odata.draft.enabled;
 annotate electronicsapp.PurchaseOrder with @odata.draft.enabled;
@@ -64,7 +64,7 @@ annotate electronicsapp.BusinessPartner with @(
         },
 
     ],
-    UI.SelectionFields:[BusinessPartnerID,name]
+    UI.SelectionFields:[BusinessPartnerID,name]     
 );
 annotate electronicsapp.BusinessPartner with @(
     UI.FieldGroup #BusinessPartnerInformation : {
@@ -73,9 +73,10 @@ annotate electronicsapp.BusinessPartner with @(
             {
             $Type:'UI.DataField',
             Value:BusinessPartnerID,
-        },
+            },
             {
                 $Type : 'UI.DataField',
+
                 Value : name,
             },
 
@@ -312,7 +313,7 @@ annotate electronicsapp.Product with @(
 annotate electronicsapp.StockData with @(
     UI.LineItem: [
         {
-            $Type : 'UI.DataField',
+            $Type : 'UI.DataField', 
             Value : store_ID
         },
         {
@@ -448,6 +449,7 @@ annotate electronicsapp.Sale.items with @(
 annotate electronicsapp.PurchaseOrder with @( 
     UI.LineItem: [
         { 
+
             $Type: 'UI.DataField', 
         Value: purchaseOrderNumber 
         },
@@ -537,8 +539,8 @@ annotate electronicsapp.Sale with @(
         },
         {
             $Type: 'UI.ReferenceFacet',
-            ID: 'PurchaseOrderItems',
-            Label: 'Purchase Order Items',
+            ID: 'Saleitemss',
+            Label: 'Sale items',
             Target: 'items/@UI.LineItem',
         },
     ]
@@ -598,6 +600,36 @@ annotate electronicsapp.Sale.items with {
                 {
                     $Type: 'Common.ValueListParameterInOut',
                     LocalDataProperty: store_id,
+                    ValueListProperty: 'storeid'
+                },
+            
+            ]
+        }
+    )
+};
+annotate electronicsapp.StockData with {
+    product_ID @(
+        Common.ValueList: {
+            Label: 'Product List',
+            CollectionPath: 'Product',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: product_ID,
+                    ValueListProperty: 'productid'
+                  },
+                     ]
+        }
+                  );
+        store_ID @(
+        // Common.ValueListWithFixedValues: true,
+        Common.ValueList: {
+            Label: 'Store List',
+            CollectionPath: 'Store',
+            Parameters: [
+                {
+                    $Type: 'Common.ValueListParameterInOut',
+                    LocalDataProperty: store_ID,
                     ValueListProperty: 'storeid'
                 },
             

@@ -22,7 +22,7 @@ entity BusinessPartner : cuid, managed {
      @title:'is_vendor'
      is_vendor:Boolean default false;
      @title:'is_customer'
-     is_customer:Boolean default false;
+     is_customer:Boolean default false;  
 }
 entity Store : cuid, managed {
     @title:'StoreId'
@@ -44,7 +44,7 @@ entity Store : cuid, managed {
 entity State {
     @title : 'code'
     key code:  String(10);
-    @title : 'description'
+    @title : 'description' 
     description: String(30);
 }
 entity Product : cuid, managed{
@@ -61,14 +61,23 @@ entity Product : cuid, managed{
     @title:'product selling price'
     productsellingprice:Decimal(10,2);
 }
+// entity StockData : cuid, managed {
+//     @title:'Store id'
+//      store  : Association to Store;
+//      @title:'Product id'
+//   product : Association to Product;
+//   @title:'stock qty'
+//   stockQty : Integer;
+// } 
 entity StockData : cuid, managed {
     @title:'Store id'
-     store  : Association to Store;
-     @title:'Product id'
-  product : Association to Product;
-  @title:'stock qty'
-  stockQty : Integer;
-} 
+    store_ID  : String(10);
+    @title:'Product id'
+    product_ID : String(10);
+    @title:'stock qty'
+    stockQty : Integer;
+}
+
 entity PurchaseOrder : cuid, managed {
     @title:'Purchase Order Number'
     purchaseOrderNumber : Integer;
