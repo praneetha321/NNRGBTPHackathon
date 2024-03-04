@@ -43,13 +43,42 @@ module.exports = cds.service.impl(function () {
             }
         }
     });
+    // this.before('CREATE', Sale, async (req) => {
+    //     const { items } = req.data;
+    //     for (const item of items) {
+    //         const product = await SELECT.one.from(Product).where({ productid: item.product_id });
+    //         if (product && item.price >= product.productsellingprice) {
+    //             req.error(400, 'Price in PurchaseOrder must be less than product selling price.');
+    //         }
+    //     }
+    //     for (const item of items) {
+    //         const stockEntry = await SELECT.one.from(StockData).where({ store_ID: item.store_id, product_ID: item.product_id });
+    //         if (stockEntry) {
+    //             stockEntry.stockQty -= item.qty;
+    //             await UPDATE(StockData).set(stockEntry).where({ store_ID: item.store_id, product_ID: item.product_id });
+    //         } else {
+    //             console.error('Stock entry not found for product:', item.product_id, 'and store:', item.store_id);
+    //         }
+    //     }
+    // });
     this.before('CREATE', Sale, async (req) => {
         const { items } = req.data;
         for (const item of items) {
             const product = await SELECT.one.from(Product).where({ productid: item.product_id });
             if (product && item.price >= product.productsellingprice) {
-                req.error(400, 'Price in PurchaseOrder must be less than product selling price.');
+                req.error(400, 'Price in Sale must be less than product selling price.');
+                return; // Stop execution if error encountered
+            }
+        }
+        for (const item of items) {
+            const stockEntry = await SELECT.one.from(StockData).where({ store_ID: item.store_id, product_ID: item.product_id });
+            if (stockEntry) {
+                stockEntry.stockQty -= item.qty;
+                await UPDATE(StockData).set(stockEntry).where({ store_ID: item.store_id, product_ID: item.product_id });
+            } else {
+                console.error('Stock entry not found for product:', item.product_id, 'and store:', item.store_id);
             }
         }
     });
+    
 });

@@ -120,14 +120,14 @@
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "Set Vendor"
+                      "text": "Set.Vendor"
                     },
                     "ElectronicListTxt2": {
                       "press": "businesspartner.ext.electronicListTxt.ElectronicListTxt.SetCustomer",
                       "visible": true,
                       "enabled": true,
                       "requiresSelection": true,
-                      "text": "Set Customer"
+                      "text": "Set.Customer"
                     }
                   }
                 }
