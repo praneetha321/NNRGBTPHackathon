@@ -1,2 +1,2 @@
-    productid,productname,ProductPictureURL, productcostprice,productsellingprice
-    1,smartphone,db\images\download.jpg,30000.00,50000.00
+    productid,productname,prodimg, productcostprice,productsellingprice
+    1,smartphone,https://i.ibb.co/5RtT3D3/download.jpg,30000.00,50000.00

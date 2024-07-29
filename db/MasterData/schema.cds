@@ -53,9 +53,7 @@ entity Product : cuid, managed{
     @title:'product Name'
     productname:String(20);
     @title:'product image url'
-   ProductPictureURL    : String  @Common.Text : '{Product}';
-   @title:'product image'
-    ProductPicture: Binary @Core.MediaType : 'image/*';
+    prodimg:String default  'https://i.ibb.co/5RtT3D3/download.jpg'; 
     @title:'product cost price'
     productcostprice:Decimal(10,2);
     @title:'product selling price'

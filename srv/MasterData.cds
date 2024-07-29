@@ -252,12 +252,8 @@ annotate electronicsapp.Product with @(
         },
         {
             $Type:'UI.DataField',
-            Value:ProductPictureURL
+            Value:prodimg
         },
-        {
-                $Type : 'UI.DataField',
-                Value : ProductPicture,
-            },
         {
             $Type:'UI.DataField',
             Value:productcostprice
@@ -284,12 +280,7 @@ annotate electronicsapp.Product with @(
             },
               {
                 $Type : 'UI.DataField',
-                Value : ProductPicture,
-            },
-
-            {
-                $Type : 'UI.DataField',
-                Value :ProductPictureURL,
+                Value : prodimg
             },
             {
                 $Type : 'UI.DataField',
@@ -310,6 +301,13 @@ annotate electronicsapp.Product with @(
         },
     ]
 );
+
+annotate electronicsapp.Product with {
+@Common.Text : ' {Products}'
+@Core.IsURL: true
+@Core.MediaType: 'image/jpg'
+prodimg;
+};
 annotate electronicsapp.StockData with @(
     UI.LineItem: [
         {
